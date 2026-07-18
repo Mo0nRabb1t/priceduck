@@ -17,7 +17,6 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      # 指定一个与项目兼容的 Flutter 版本
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -27,7 +26,15 @@ jobs:
       - name: Get dependencies
         run: flutter pub get
 
-      # 关键：运行 Drift 代码生成
+      - name: Override path dependency
+        run: |
+          echo "dependency_overrides:" >> pubspec.yaml
+          echo "  path: 1.9.0" >> pubspec.yaml
+        working-directory: .
+
+      - name: Resolve with overrides
+        run: flutter pub get
+
       - name: Generate Drift code
         run: dart run build_runner build --delete-conflicting-outputs
 
