@@ -24,16 +24,17 @@ part 'price_record_dao.g.dart';
    }
  
    /// 按 id 更新
-   Future<void> updateRecord(PriceRecord record) {
-     return (update(priceRecords)..where((t) => t.id.equals(record.id)))
-         .write(PriceRecordData(
-       store: record.store,
-       product: record.product,
-       price: record.price,
-       quantity: record.quantity,
-       unit: record.unit.symbol,
-       createdAt: record.createdAt,
-     ));
+  Future<void> updateRecord(PriceRecord record) {
+    if (record.id == null) return Future.value();
+    return (update(priceRecords)..where((t) => t.id.equals(record.id!)))
+        .write(PriceRecordsCompanion(
+      store: Value(record.store),
+      product: Value(record.product),
+      price: Value(record.price),
+      quantity: Value(record.quantity),
+      unit: Value(record.unit.symbol),
+      createdAt: Value(record.createdAt),
+    ));
    }
  
    /// 流：全部记录按创建时间倒序
@@ -63,8 +64,7 @@ part 'price_record_dao.g.dart';
  
    /// 去重升序物品列表（ComboBox 用）
    Future<List<String>> distinctProducts() {
-     return (select(priceRecords)
-           ..distinct()
+ return (select(priceRecords, distinct: true)
            ..orderBy([(t) => OrderingTerm(expression: t.product, mode: OrderingMode.asc)]))
          .map((r) => r.product)
          .get();
@@ -72,8 +72,7 @@ part 'price_record_dao.g.dart';
  
    /// 去重升序超市列表（ComboBox 用）
    Future<List<String>> distinctStores() {
-     return (select(priceRecords)
-           ..distinct()
+ return (select(priceRecords, distinct: true)
            ..orderBy([(t) => OrderingTerm(expression: t.store, mode: OrderingMode.asc)]))
          .map((r) => r.store)
          .get();

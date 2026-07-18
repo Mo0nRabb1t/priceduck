@@ -1,6 +1,7 @@
- import 'dart:async';
- import '../database/app_database.dart';
- import '../database/tables/price_records.dart';
+import 'dart:async';
+import 'package:drift/drift.dart';
+import '../database/app_database.dart';
+import '../database/tables/price_records.dart';
  import '../models/price_record.dart';
  import '../models/product_unit.dart';
  
@@ -13,14 +14,14 @@
  
    /// 新增记录（store 为空时存空字符串）
    Future<int> insertRecord(PriceRecord r) {
-     return _db.priceRecordDao.insertRecord(PriceRecordData(
-       store: r.store ?? '',
-       product: r.product,
-       price: r.price,
-       quantity: r.quantity,
-       unit: r.unit.symbol,
-       createdAt: r.createdAt,
-     ));
+    return _db.priceRecordDao.insertRecord(PriceRecordsCompanion.insert(
+      store: Value(r.store ?? ''),
+      product: Value(r.product),
+      price: Value(r.price),
+      quantity: Value(r.quantity),
+      unit: Value(r.unit.symbol),
+      createdAt: Value(r.createdAt),
+    ));
    }
  
    Future<void> deleteRecord(int id) {

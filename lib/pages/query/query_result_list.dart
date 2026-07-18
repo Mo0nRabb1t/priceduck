@@ -1,5 +1,5 @@
  import 'package:flutter/cupertino.dart';
- import '../../database/tables/price_records.dart';
+ import '../../database/app_database.dart';
  import '../../models/price_record.dart';
  import '../../models/product_unit.dart';
  import '../../repositories/record_repository.dart';

@@ -1,7 +1,5 @@
 import 'package:drift/drift.dart';
 
-part 'price_records.g.dart';
-
 /// 物价记录表
  @DataClassName('PriceRecordData')
  class PriceRecords extends Table {

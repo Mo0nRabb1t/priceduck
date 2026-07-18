@@ -78,7 +78,7 @@
        showCupertinoDialog(
          context: context,
          builder: (ctx) => CupertinoAlertDialog(
-           prefix: const Text('保存成功'),
+           title: const Text('保存成功'),
            actions: [
              CupertinoDialogAction(
                child: const Text('确定'),
