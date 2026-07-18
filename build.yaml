@@ -1,0 +1,11 @@
+ targets:
+   $default:
+     builders:
+       drift_dev:
+         options:
+           stores:
+             - drift
+         generate_for:
+           - lib/database/tables/*.dart
+           - lib/database/daos/*.dart
+           - lib/database/app_database.dart
