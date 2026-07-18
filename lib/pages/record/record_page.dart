@@ -30,7 +30,8 @@
              // 分隔
              const Padding(
                padding: EdgeInsets.symmetric(horizontal: 16),
-               child: Divider(height: 1),
+              child: Container(height: 1,
+                  color: CupertinoColors.systemGrey.withAlpha(76)),
              ),
              // 列表占剩余空间，内部可滚动
              const Expanded(

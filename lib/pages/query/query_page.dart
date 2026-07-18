@@ -114,7 +114,8 @@
                  ],
                ),
              ),
-             const Divider(height: 1),
+             Container(height: 1,
+                 color: CupertinoColors.systemGrey.withAlpha(76)),
              // 结果区域
              Expanded(
                child: _searched && _searchProduct != null

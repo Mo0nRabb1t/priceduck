@@ -28,7 +28,7 @@
          return ListView(
            children: [
              CupertinoListSection(
-               children: records.map((r) {
+               children: records.map<Widget>((r) {
                  final record = RecordRepository.toPriceRecord(r);
                  final up = computeUnitPrice(
                      record.price, record.quantity, record.unit);

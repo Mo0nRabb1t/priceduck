@@ -105,7 +105,7 @@
        children: [
          // 超市（可选）
          CupertinoFormRow(
-           label: const Text('超市'),
+           title: const Text('超市'),
            child: CupertinoTextField(
              controller: _storeCtrl,
              placeholder: '可选，如 山姆',
@@ -113,7 +113,7 @@
          ),
          // 商品（必填）
          CupertinoFormRow(
-           label: const Text('商品'),
+           title: const Text('商品'),
            child: CupertinoTextField(
              controller: _productCtrl,
              placeholder: '如 鸡蛋',
@@ -127,7 +127,7 @@
            ),
          // 价格
          CupertinoFormRow(
-           label: const Text('价格'),
+           title: const Text('价格'),
            child: CupertinoTextField(
              controller: _priceCtrl,
              placeholder: '如 20',
@@ -142,7 +142,7 @@
            ),
          // 数量
          CupertinoFormRow(
-           label: const Text('数量'),
+           title: const Text('数量'),
            child: CupertinoTextField(
              controller: _qtyCtrl,
              placeholder: '如 2',
@@ -157,7 +157,7 @@
            ),
          // 单位选择
          CupertinoFormRow(
-           label: const Text('单位'),
+           title: const Text('单位'),
            child: CupertinoButton(
              padding: EdgeInsets.zero,
              child: Text(_selectedUnit.symbol),

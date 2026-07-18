@@ -1,6 +1,7 @@
  import 'package:flutter_riverpod/flutter_riverpod.dart';
  import '../database/app_database.dart';
- import '../repositories/filter_options_repository.dart';
+import '../repositories/filter_options_repository.dart';
+import 'records_provider.dart';
  
  /// 过滤选项仓库 Provider
  final filterOptionsRepositoryProvider =

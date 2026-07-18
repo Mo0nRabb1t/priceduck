@@ -32,7 +32,7 @@
    /// 构建 CupertinoThemeData
    static CupertinoThemeData buildTheme() {
      return const CupertinoThemeData(
-       bright: Brightness.light,
+       brightness: Brightness.light,
        primaryColor: primaryColor,
        scaffoldBackgroundColor: backgroundLight,
        barBackgroundColor: Color(0xE5F9F9F9),
