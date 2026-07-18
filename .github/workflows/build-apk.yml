@@ -17,12 +17,12 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      # 指定一个与项目兼容的 Flutter 版本（3.22.6 是较新但 API 较稳定的版本）
+      # 指定一个与项目兼容的 Flutter 版本
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.22.6'   # 降级到此版本
+          flutter-version: '3.22.x'
 
       - name: Get dependencies
         run: flutter pub get
