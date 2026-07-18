@@ -1,6 +1,8 @@
- import 'package:drift/drift.dart';
- 
- /// 物价记录表
+import 'package:drift/drift.dart';
+
+part 'price_records.g.dart';
+
+/// 物价记录表
  @DataClassName('PriceRecordData')
  class PriceRecords extends Table {
    IntColumn get id => integer().autoIncrement()();

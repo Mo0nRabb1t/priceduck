@@ -3,9 +3,11 @@
  import '../tables/price_records.dart';
  import '../app_database.dart';
  import '../../models/product_unit.dart';
- import '../../models/price_record.dart';
- 
- /// 物价记录 DAO
+import '../../models/price_record.dart';
+
+part 'price_record_dao.g.dart';
+
+/// 物价记录 DAO
  @DriftAccessor(tables: [PriceRecords])
  class PriceRecordDao extends DatabaseAccessor<AppDatabase>
      with _$PriceRecordDaoMixin {
@@ -37,7 +39,7 @@
    /// 流：全部记录按创建时间倒序
    Stream<List<PriceRecordData>> watchAllRecords() {
      return (select(priceRecords)
-           ..orderBy([(t) => OrderingTerm(desc: t.createdAt)]))
+           ..orderBy([(t) => OrderingTerm(expression: t.createdAt, mode: OrderingMode.desc)]))
          .watch();
    }
  
@@ -45,7 +47,7 @@
    Stream<List<PriceRecordData>> watchByProduct(String product) {
      return (select(priceRecords)
            ..where((t) => t.product.equals(product))
-           ..orderBy([(t) => OrderingTerm(desc: t.createdAt)]))
+           ..orderBy([(t) => OrderingTerm(expression: t.createdAt, mode: OrderingMode.desc)]))
          .watch();
    }
  
@@ -55,7 +57,7 @@
      return (select(priceRecords)
            ..where((t) =>
                t.product.equals(product) & t.store.equals(store))
-           ..orderBy([(t) => OrderingTerm(desc: t.createdAt)]))
+           ..orderBy([(t) => OrderingTerm(expression: t.createdAt, mode: OrderingMode.desc)]))
          .watch();
    }
  
@@ -63,7 +65,7 @@
    Future<List<String>> distinctProducts() {
      return (select(priceRecords)
            ..distinct()
-           ..orderBy([(t) => OrderingTerm(asc: t.product)]))
+           ..orderBy([(t) => OrderingTerm(expression: t.product, mode: OrderingMode.asc)]))
          .map((r) => r.product)
          .get();
    }
@@ -72,7 +74,7 @@
    Future<List<String>> distinctStores() {
      return (select(priceRecords)
            ..distinct()
-           ..orderBy([(t) => OrderingTerm(asc: t.store)]))
+           ..orderBy([(t) => OrderingTerm(expression: t.store, mode: OrderingMode.asc)]))
          .map((r) => r.store)
          .get();
    }

@@ -27,12 +27,12 @@
            children: [
              // 表单固定页首（无滚动包裹）
              const RecordForm(),
-             // 分隔
-             const Padding(
-               padding: EdgeInsets.symmetric(horizontal: 16),
+            // 分隔
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Container(height: 1,
                   color: CupertinoColors.systemGrey.withAlpha(76)),
-             ),
+            ),
              // 列表占剩余空间，内部可滚动
              const Expanded(
                child: RecordList(),
