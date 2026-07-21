@@ -28,12 +28,12 @@ part 'price_record_dao.g.dart';
     if (record.id == null) return Future.value();
     return (update(priceRecords)..where((t) => t.id.equals(record.id!)))
         .write(PriceRecordsCompanion(
-      store: Value(record.store),
-      product: Value(record.product),
-      price: Value(record.price),
-      quantity: Value(record.quantity),
-      unit: Value(record.unit.symbol),
-      createdAt: Value(record.createdAt),
+      store: record.store ?? '',
+      product: record.product,
+      price: record.price,
+      quantity: record.quantity,
+      unit: record.unit.symbol,
+      createdAt: record.createdAt,
     ));
    }
  

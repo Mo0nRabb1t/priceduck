@@ -15,12 +15,12 @@ import '../database/tables/price_records.dart';
    /// 新增记录（store 为空时存空字符串）
    Future<int> insertRecord(PriceRecord r) {
     return _db.priceRecordDao.insertRecord(PriceRecordsCompanion.insert(
-      store: Value(r.store ?? ''),
-      product: Value(r.product),
-      price: Value(r.price),
-      quantity: Value(r.quantity),
-      unit: Value(r.unit.symbol),
-      createdAt: Value(r.createdAt),
+      store: r.store ?? '',
+      product: r.product,
+      price: r.price,
+      quantity: r.quantity,
+      unit: r.unit.symbol,
+      createdAt: r.createdAt,
     ));
    }
  
@@ -53,7 +53,7 @@ import '../database/tables/price_records.dart';
        product: d.product,
        price: d.price,
        quantity: d.quantity,
-       unit: ProductUnit.fromSymbol(d.unit) ?? ProductUnit.piece,
+       unit: parseProductUnit(d.unit) ?? ProductUnit.piece,
        createdAt: d.createdAt,
      );
    }

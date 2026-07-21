@@ -16,7 +16,22 @@
          return 'L';
        case ProductUnit.piece:
          return '个';
-     }
+}
+/// 根据符号字符串解析为单位枚举（顶层函数，避免被误判为枚举构造器）
+ProductUnit? parseProductUnit(String s) {
+  for (final unit in ProductUnit.values) {
+    if (unit.symbol == s) return unit;
+  }
+  return null;
+}
+ 
+/// 根据符号字符串解析为单位枚举（顶层函数，避免被误判为枚举构造器）
+ProductUnit? parseProductUnit(String s) {
+  for (final unit in ProductUnit.values) {
+    if (unit.symbol == s) return unit;
+  }
+  return null;
+}
    }
  
    /// 归一化轴（用于单价展示）
@@ -33,15 +48,7 @@
      }
    }
  
-   /// 根据符号字符串解析为单位枚举
-   static ProductUnit? fromSymbol(String s) {
-     for (final unit in ProductUnit.values) {
-       if (unit.symbol == s) return unit;
-     }
-     return null;
-   }
- 
-   /// 所有可选项的中文展示列表
+  /// 所有可选项的中文展示列表
    static List<String> get displayLabels =>
        ProductUnit.values.map((u) => u.symbol).toList();
  }
