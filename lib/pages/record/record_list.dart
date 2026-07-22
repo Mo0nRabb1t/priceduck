@@ -34,7 +34,7 @@
                      record.price, record.quantity, record.unit);
                  final storeLabel = record.store ?? '-';
                  return CupertinoListTile(
-                   title: Text('${record.product} . $storeLabel'),
+                   title: Text('${record.product} · $storeLabel'),
                    subtitle: Text(_formatTime(record.createdAt)),
                    trailing: UnitPriceChip(label: up.display),
                  );

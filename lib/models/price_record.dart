@@ -54,5 +54,5 @@
            id == other.id;
  
    @override
-   int get hashCode => id.hashCode;
+ int get hashCode => id ?? 0;
  }

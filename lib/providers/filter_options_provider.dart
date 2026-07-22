@@ -19,5 +19,5 @@ import 'records_provider.dart';
  /// 去重超市列表 Provider
  final storeOptionsProvider = FutureProvider<List<String>>((ref) {
    final repo = ref.watch(filterOptionsRepositoryProvider);
-   return repo.distinctStores();
+   return repo.distinctStores().then((list) => list.where((s) => s.isNotEmpty).toList());
  });

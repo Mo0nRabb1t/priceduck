@@ -23,14 +23,6 @@ jobs:
           channel: 'stable'
           flutter-version: '3.27.x'
 
-      - name: Override path dependency
-        run: |
-          echo "dependency_overrides:" >> pubspec.yaml
-          echo "  path: 1.9.0" >> pubspec.yaml
-
-      - name: Fix Drift configuration
-        run: |
-          sed -i '/stores:/d' pubspec.yaml
 
       - name: Get dependencies
         run: flutter pub get

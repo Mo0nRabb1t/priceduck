@@ -14,7 +14,7 @@
    String get label => '元/$axis';
  
    /// 展示文本，如 ¥10.00/kg
-   String get display => '¥${_round2(value)}/$axis';
+ String get display => '¥${valueDisplay}/$axis';
  
    /// 仅数值部分，如 "10.00"
    String get valueDisplay => _round2(value).toStringAsFixed(2);
