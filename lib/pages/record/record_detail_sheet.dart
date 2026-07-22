@@ -111,7 +111,7 @@
          child: ListView(
            padding: const EdgeInsets.all(16),
            children: [
-             Center(child: UnitPriceChip(label: up.display)),
+            Center(child: Text(up.display, style: AppTheme.priceTextStyle)),
              const SizedBox(height: 16),
              CupertinoFormSection(
                children: [

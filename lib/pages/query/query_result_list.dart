@@ -43,7 +43,7 @@
              mainAxisAlignment: MainAxisAlignment.center,
              crossAxisAlignment: CrossAxisAlignment.end,
              children: [
-               UnitPriceChip(label: up.display),
+              Text(up.display, style: AppTheme.priceTextStyle),
                Text(_formatTime(item.createdAt),
                    style: const TextStyle(
                        fontSize: 11, color: AppTheme.textSecondary)),

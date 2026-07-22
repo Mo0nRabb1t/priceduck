@@ -15,11 +15,6 @@
    Widget build(BuildContext context) {
      return CupertinoPageScaffold(
        navigationBar: CupertinoNavigationBar(
-          leading: Padding(
-            padding: const EdgeInsets.only(left: 8),
-            child: Image.asset('assets/icons/priceduck.jpeg',
-                width: 28, height: 28),
-          ),
           middle: const Text('物价记录'),
        ),
        child: SafeArea(

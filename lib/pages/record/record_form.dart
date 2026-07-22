@@ -3,10 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/records_provider.dart';
 import '../../models/price_record.dart';
 import '../../models/product_unit.dart';
-import '../../widgets/unit_price_chip.dart';
+import '../../utils/unit_price.dart';
 import '../../theme/app_theme.dart';
 
-/// 文字录入表单
+/// 录入表单 — 方案甲：白卡容器 + label在上 + 全宽按钮
 class RecordForm extends ConsumerStatefulWidget {
   const RecordForm({super.key});
 
@@ -20,13 +20,9 @@ class _RecordFormState extends ConsumerState<RecordForm> {
   final _priceCtrl = TextEditingController();
   final _qtyCtrl = TextEditingController();
   ProductUnit _selectedUnit = ProductUnit.kg;
-
   String? _productError;
   String? _priceError;
   String? _qtyError;
-
-  static const _labelStyle = TextStyle(fontSize: 17);
-  static const _labelWidth = 64.0;
 
   @override
   void dispose() {
@@ -96,51 +92,113 @@ class _RecordFormState extends ConsumerState<RecordForm> {
       price: priceVal, quantity: qtyVal, unit: _selectedUnit,
     )));
 
-    return CupertinoFormSection(
-      header: const Text('录入信息'),
-      children: [
-        _buildRow('超市', CupertinoTextField(
-          controller: _storeCtrl, placeholder: '可选，如 山姆')),
-        _buildRow('商品', CupertinoTextField(
-          controller: _productCtrl, placeholder: '如 鸡蛋')),
-        if (_productError != null)
-          _buildError(_productError!),
-        _buildRow('价格', CupertinoTextField(
-          controller: _priceCtrl, placeholder: '如 20',
-          keyboardType: const TextInputType.numberWithOptions(decimal: true))),
-        if (_priceError != null) _buildError(_priceError!),
-        _buildRow('数量', CupertinoTextField(
-          controller: _qtyCtrl, placeholder: '如 2',
-          keyboardType: const TextInputType.numberWithOptions(decimal: true))),
-        if (_qtyError != null) _buildError(_qtyError!),
-        _buildRow('单位', CupertinoButton(
-          padding: EdgeInsets.zero,
-          onPressed: () => _showUnitPicker(),
-          child: Text(_selectedUnit.symbol, style: _labelStyle)),
-        ),
-        if (preview != null)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Row(children: [
-              const Text('单价: ', style: TextStyle(fontSize: 13)),
-              UnitPriceChip(label: preview.display, compact: true),
-            ])),
-        CupertinoFormRow(
-          child: CupertinoButton.filled(
-            child: const Text('保存'), onPressed: _save),
-        ),
-      ],
+    return Container(
+      margin: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppTheme.cardBackground,
+        borderRadius: BorderRadius.circular(AppTheme.cardRadius),
+        boxShadow: AppTheme.cardShadow,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildField('超市', _storeCtrl, '可选，如 山姆'),
+          _buildField('商品', _productCtrl, '如 鸡蛋'),
+          if (_productError != null) _buildError(_productError!),
+          _buildField('价格', _priceCtrl, '如 20', decimal: true),
+          if (_priceError != null) _buildError(_priceError!),
+          _buildField('数量', _qtyCtrl, '如 2', decimal: true),
+          if (_qtyError != null) _buildError(_qtyError!),
+          _buildUnitField(),
+          if (preview != null) _buildPreview(preview),
+          const SizedBox(height: 12),
+          SizedBox(
+            width: double.infinity,
+            child: CupertinoButton.filled(
+              child: const Text('保存'),
+              onPressed: _save,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
-  Widget _buildRow(String label, Widget input) {
-    return CupertinoFormRow(
+  Widget _buildField(String label, TextEditingController c, String ph,
+      {bool decimal = false}) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 14),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 6),
+            child: Text(label,
+                style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: AppTheme.textSecondary)),
+          ),
+          CupertinoTextField(
+            controller: c,
+            placeholder: ph,
+            keyboardType: decimal
+                ? const TextInputType.numberWithOptions(decimal: true)
+                : null,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            decoration: BoxDecoration(
+              color: CupertinoColors.white,
+              border: Border.all(color: AppTheme.dividerColor, width: 2),
+              borderRadius: BorderRadius.circular(AppTheme.inputRadius),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildUnitField() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 14),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Padding(
+            padding: EdgeInsets.only(bottom: 6),
+            child: Text('单位',
+                style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: AppTheme.textSecondary)),
+          ),
+          CupertinoButton(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            color: CupertinoColors.white,
+            child: Row(
+              children: [
+                Text(_selectedUnit.symbol,
+                    style: const TextStyle(fontSize: 17)),
+                const Spacer(),
+                const Icon(CupertinoIcons.chevron_down, size: 16),
+              ],
+            ),
+            onPressed: _showUnitPicker,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPreview(UnitPriceResult preview) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 14),
       child: Row(
         children: [
-          SizedBox(width: _labelWidth,
-            child: Text(label, style: _labelStyle)),
-          const SizedBox(width: 12),
-          Expanded(child: input),
+          const Text('单价: ',
+              style: TextStyle(fontSize: 14, color: AppTheme.textSecondary)),
+          Text(preview.display,
+              style: AppTheme.priceTextStyle.copyWith(fontSize: 16)),
         ],
       ),
     );
@@ -148,9 +206,9 @@ class _RecordFormState extends ConsumerState<RecordForm> {
 
   Widget _buildError(String msg) {
     return Padding(
-      padding: const EdgeInsets.only(left: 16, bottom: 4),
+      padding: const EdgeInsets.only(left: 0, bottom: 8),
       child: Text(msg,
-        style: const TextStyle(color: AppTheme.errorColor, fontSize: 12)),
+          style: const TextStyle(color: AppTheme.errorColor, fontSize: 12)),
     );
   }
 
