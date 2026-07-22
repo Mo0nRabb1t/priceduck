@@ -257,8 +257,9 @@ class _UnitPickerSheet extends StatelessWidget {
                   style: TextStyle(color: AppTheme.primaryColor)),
               onPressed: () => Navigator.of(context).pop(),
             ),
-          ],
-       ),
+           ],
+          ),
+        ),
         Container(height: 0.5, color: AppTheme.dividerColor),
         Expanded(
           child: ListView.builder(
