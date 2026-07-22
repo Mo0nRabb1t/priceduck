@@ -15,11 +15,11 @@ class AppShell extends ConsumerWidget {
         activeColor: AppTheme.primaryColor,
         items: const [
           BottomNavigationBarItem(
-            icon: SizedBox.shrink(),
+            icon: const Text('🏠', style: TextStyle(fontSize: 22)),
             label: '记录',
           ),
           BottomNavigationBarItem(
-            icon: SizedBox.shrink(),
+            icon: const Text('🔍', style: TextStyle(fontSize: 22)),
             label: '查询',
           ),
         ],

@@ -76,7 +76,13 @@ class _QueryPageState extends ConsumerState<QueryPage> {
         middle: const Text('查询比价'),
       ),
       child: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
+        behavior: HitTestBehavior.translucent,
+        onTap: () {
+          final scope = FocusScope.of(context);
+          if (!scope.hasPrimaryFocus && scope.focusedChild != null) {
+            scope.unfocus();
+          }
+        },
         child: SafeArea(
           child: Column(
             children: [

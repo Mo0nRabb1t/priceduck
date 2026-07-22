@@ -19,7 +19,13 @@ class _RecordPageState extends State<RecordPage> {
         middle: const Text('物价记录'),
       ),
       child: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
+        behavior: HitTestBehavior.translucent,
+        onTap: () {
+          final scope = FocusScope.of(context);
+          if (!scope.hasPrimaryFocus && scope.focusedChild != null) {
+            scope.unfocus();
+          }
+        },
         child: SafeArea(
           child: ListView(
             children: [
