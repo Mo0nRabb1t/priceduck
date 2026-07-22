@@ -1,18 +1,18 @@
- import '../database/app_database.dart';
- 
- /// 过滤选项仓库 - 聚合去重物品/超市列表供 ComboBox 使用
- class FilterOptionsRepository {
-   final AppDatabase _db;
- 
-   FilterOptionsRepository(this._db);
- 
-   /// 去重升序物品列表
-   Future<List<String>> distinctProducts() {
-     return _db.priceRecordDao.distinctProducts();
-   }
- 
-   /// 去重升序超市列表
-   Future<List<String>> distinctStores() {
-     return _db.priceRecordDao.distinctStores();
-   }
- }
+import '../database/app_database.dart';
+
+/// 过滤选项仓库 - 返回去重物品/超市列表（内存去重兜底）
+class FilterOptionsRepository {
+  final AppDatabase _db;
+
+  FilterOptionsRepository(this._db);
+
+  Future<List<String>> distinctProducts() {
+    return _db.priceRecordDao.distinctProducts()
+        .then((list) => list.toSet().toList()..sort());
+  }
+
+  Future<List<String>> distinctStores() {
+    return _db.priceRecordDao.distinctStores()
+        .then((list) => list.toSet().toList()..sort());
+  }
+}

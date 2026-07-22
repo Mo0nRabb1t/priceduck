@@ -1,40 +1,39 @@
- import 'package:flutter/cupertino.dart';
- import 'record_form.dart';
- import 'record_list.dart';
- 
- /// 记录页面 - 表单固定页首，列表占剩余空间滚动（去掉 SingleChildScrollView 包裹）
- class RecordPage extends StatefulWidget {
-   const RecordPage({super.key});
- 
-   @override
-   State<RecordPage> createState() => _RecordPageState();
- }
- 
- class _RecordPageState extends State<RecordPage> {
-   @override
-   Widget build(BuildContext context) {
-     return CupertinoPageScaffold(
-       navigationBar: CupertinoNavigationBar(
-          middle: const Text('物价记录'),
-       ),
-       child: SafeArea(
-         child: Column(
-           children: [
-             // 表单固定页首（无滚动包裹）
-             const RecordForm(),
-            // 分隔
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Container(height: 1,
-                  color: CupertinoColors.systemGrey.withAlpha(76)),
-            ),
-             // 列表占剩余空间，内部可滚动
-             const Expanded(
-               child: RecordList(),
-             ),
-           ],
-         ),
-       ),
-     );
-   }
- }
+import 'package:flutter/cupertino.dart';
+import 'record_form.dart';
+import 'record_list.dart';
+import '../../theme/app_theme.dart';
+
+/// 记录页 — O1: 整体可滚动，O6: 点击空白收起键盘
+class RecordPage extends StatefulWidget {
+  const RecordPage({super.key});
+
+  @override
+  State<RecordPage> createState() => _RecordPageState();
+}
+
+class _RecordPageState extends State<RecordPage> {
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        middle: const Text('物价记录'),
+      ),
+      child: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: SafeArea(
+          child: ListView(
+            children: [
+              const RecordForm(),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Container(height: 1,
+                    color: CupertinoColors.systemGrey.withAlpha(76)),
+              ),
+              const RecordList(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

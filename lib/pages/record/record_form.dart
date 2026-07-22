@@ -6,7 +6,7 @@ import '../../models/product_unit.dart';
 import '../../utils/unit_price.dart';
 import '../../theme/app_theme.dart';
 
-/// 录入表单 — 方案甲：白卡容器 + label在上 + 全宽按钮
+/// 录入表单 — B1/O2/O3/O4/O5 修复
 class RecordForm extends ConsumerStatefulWidget {
   const RecordForm({super.key});
 
@@ -20,6 +20,7 @@ class _RecordFormState extends ConsumerState<RecordForm> {
   final _priceCtrl = TextEditingController();
   final _qtyCtrl = TextEditingController();
   ProductUnit _selectedUnit = ProductUnit.kg;
+  String? _storeError;
   String? _productError;
   String? _priceError;
   String? _qtyError;
@@ -35,6 +36,7 @@ class _RecordFormState extends ConsumerState<RecordForm> {
 
   bool _validate() {
     setState(() {
+      _storeError = _storeCtrl.text.trim().isEmpty ? '超市不能为空' : null;
       _productError = _productCtrl.text.trim().isEmpty ? '商品不能为空' : null;
       _priceError = null;
       _qtyError = null;
@@ -43,15 +45,17 @@ class _RecordFormState extends ConsumerState<RecordForm> {
       final qty = double.tryParse(_qtyCtrl.text);
       if (qty == null || qty <= 0) _qtyError = '数量必须 > 0';
     });
-    return _productError == null && _priceError == null && _qtyError == null;
+    return _storeError == null &&
+        _productError == null &&
+        _priceError == null &&
+        _qtyError == null;
   }
 
   Future<void> _save() async {
     if (!_validate()) return;
     final repo = ref.read(recordRepositoryProvider);
     await repo.insertRecord(PriceRecord(
-      store: _storeCtrl.text.trim().isEmpty
-          ? null : _storeCtrl.text.trim(),
+      store: _storeCtrl.text.trim(),
       product: _productCtrl.text.trim(),
       price: double.parse(_priceCtrl.text),
       quantity: double.parse(_qtyCtrl.text),
@@ -64,6 +68,7 @@ class _RecordFormState extends ConsumerState<RecordForm> {
     _qtyCtrl.clear();
     setState(() {
       _selectedUnit = ProductUnit.kg;
+      _storeError = null;
       _productError = null;
       _priceError = null;
       _qtyError = null;
@@ -103,12 +108,13 @@ class _RecordFormState extends ConsumerState<RecordForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildField('超市', _storeCtrl, '可选，如 山姆'),
-          _buildField('商品', _productCtrl, '如 鸡蛋'),
+          _buildField('超市', _storeCtrl, '如：山姆'),
+          if (_storeError != null) _buildError(_storeError!),
+          _buildField('商品', _productCtrl, '如：鸡蛋'),
           if (_productError != null) _buildError(_productError!),
-          _buildField('价格', _priceCtrl, '如 20', decimal: true),
+          _buildField('价格', _priceCtrl, '如：20', decimal: true),
           if (_priceError != null) _buildError(_priceError!),
-          _buildField('数量', _qtyCtrl, '如 2', decimal: true),
+          _buildField('数量', _qtyCtrl, '如：2', decimal: true),
           if (_qtyError != null) _buildError(_qtyError!),
           _buildUnitField(),
           if (preview != null) _buildPreview(preview),
@@ -174,13 +180,16 @@ class _RecordFormState extends ConsumerState<RecordForm> {
           ),
           CupertinoButton(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-            color: CupertinoColors.white,
+            color: const Color(0xFFF5F5F7),
+            borderRadius: BorderRadius.circular(AppTheme.inputRadius),
             child: Row(
               children: [
-                Text(_selectedUnit.symbol,
-                    style: const TextStyle(fontSize: 17)),
+                Text(_selectedUnit.displayLabel,
+                    style: const TextStyle(
+                        fontSize: 17, color: AppTheme.textPrimary)),
                 const Spacer(),
-                const Icon(CupertinoIcons.chevron_down, size: 16),
+                const Icon(CupertinoIcons.chevron_down,
+                    size: 16, color: AppTheme.textSecondary),
               ],
             ),
             onPressed: _showUnitPicker,
@@ -226,6 +235,7 @@ class _RecordFormState extends ConsumerState<RecordForm> {
   }
 }
 
+/// 单位选择器 — B1 修复：用 ListView 替代 CupertinoPicker
 class _UnitPickerSheet extends StatelessWidget {
   final ProductUnit selected;
   final ValueChanged<ProductUnit> onSelected;
@@ -234,23 +244,57 @@ class _UnitPickerSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 260,
+      height: 280,
       color: CupertinoColors.systemBackground,
       child: Column(children: [
-        CupertinoButton(
-          child: const Text('完成'),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        Expanded(
-          child: CupertinoPicker(
-            itemExtent: 40,
-            scrollController: FixedExtentScrollController(
-              initialItem: ProductUnit.values.indexOf(selected),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            child: CupertinoButton(
+              child: const Text('完成',
+                  style: TextStyle(color: AppTheme.primaryColor)),
+              onPressed: () => Navigator.of(context).pop(),
             ),
-            onSelectedItemChanged: (i) => onSelected(ProductUnit.values[i]),
-            children: ProductUnit.values
-                .map((u) => Center(child: Text(u.symbol)))
-                .toList(),
+          ),
+        ),
+        Container(height: 0.5, color: AppTheme.dividerColor),
+        Expanded(
+          child: ListView.builder(
+            itemCount: ProductUnit.values.length,
+            itemBuilder: (context, index) {
+              final unit = ProductUnit.values[index];
+              final isSelected = unit == selected;
+              return GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () => onSelected(unit),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16, vertical: 14),
+                  color: isSelected
+                      ? AppTheme.primaryColor.withAlpha(25)
+                      : CupertinoColors.white,
+                  child: Row(
+                    children: [
+                      Text(unit.displayLabel,
+                          style: TextStyle(
+                            fontSize: 17,
+                            color: isSelected
+                                ? AppTheme.primaryColor
+                                : AppTheme.textPrimary,
+                            fontWeight: isSelected
+                                ? FontWeight.w600
+                                : FontWeight.normal,
+                          )),
+                      const Spacer(),
+                      if (isSelected)
+                        const Icon(CupertinoIcons.checkmark,
+                            color: AppTheme.primaryColor, size: 18),
+                    ],
+                  ),
+                ),
+              );
+            },
           ),
         ),
       ]),

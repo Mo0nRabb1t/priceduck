@@ -25,6 +25,9 @@ class AppShell extends ConsumerWidget {
         ],
       ),
       tabBuilder: (context, index) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          FocusManager.instance.primaryFocus?.unfocus();
+        });
         switch (index) {
           case 0:
             return const RecordPage();

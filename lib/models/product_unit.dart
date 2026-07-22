@@ -33,9 +33,25 @@ extension ProductUnitX on ProductUnit {
     }
   }
 
+  /// 带中文标签的展示名称（用于 Picker 选项和已选展示）
+  String get displayLabel {
+    switch (this) {
+      case ProductUnit.g:
+        return 'g (克)';
+      case ProductUnit.kg:
+        return 'kg (千克)';
+      case ProductUnit.ml:
+        return 'ml (毫升)';
+      case ProductUnit.l:
+        return 'L (升)';
+      case ProductUnit.piece:
+        return '个';
+    }
+  }
+
   /// 所有可选项的中文展示列表
   static List<String> get displayLabels =>
-      ProductUnit.values.map((u) => u.symbol).toList();
+      ProductUnit.values.map((u) => u.displayLabel).toList();
 }
 
 /// 根据符号字符串解析为单位枚举（顶层函数，避免被误判为枚举构造器）
