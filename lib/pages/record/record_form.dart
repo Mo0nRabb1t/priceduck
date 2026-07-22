@@ -251,13 +251,14 @@ class _UnitPickerSheet extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
-            children: CupertinoButton(
+            children: [
+            CupertinoButton(
               child: const Text('完成',
                   style: TextStyle(color: AppTheme.primaryColor)),
               onPressed: () => Navigator.of(context).pop(),
             ),
-          ),
-        ),
+          ],
+       ),
         Container(height: 0.5, color: AppTheme.dividerColor),
         Expanded(
           child: ListView.builder(
