@@ -160,7 +160,6 @@ class _QueryPageState extends ConsumerState<QueryPage> {
       store: _searchStore,
     )));
 
-  return recordsAsync.when(
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: recordsAsync.when(
@@ -189,4 +188,3 @@ class _QueryPageState extends ConsumerState<QueryPage> {
     );
   }
 }
-              padding: const EdgeInsets.symmetric(horizontal: 16),
