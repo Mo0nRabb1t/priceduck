@@ -185,6 +185,6 @@ class _QueryPageState extends ConsumerState<QueryPage> {
       },
       loading: () => const Center(child: CupertinoActivityIndicator()),
       error: (err, _) => Center(child: Text('查询失败: $err')),
-    );
+   ));
   }
 }
