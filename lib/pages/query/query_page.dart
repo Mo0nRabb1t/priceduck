@@ -75,63 +75,54 @@ class _QueryPageState extends ConsumerState<QueryPage> {
       navigationBar: CupertinoNavigationBar(
         middle: const Text('查询比价'),
       ),
-      child: GestureDetector(
-        behavior: HitTestBehavior.translucent,
-        onTap: () {
-          final scope = FocusScope.of(context);
-          if (!scope.hasPrimaryFocus && scope.focusedChild != null) {
-            scope.unfocus();
-          }
-        },
-        child: SafeArea(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(12),
-                child: Column(
-                  children: [
-                    FilterComboBox(
-                      controller: _productCtrl,
-                      options: productOptions,
-                      hintText: '物品（必填）',
-                    ),
-                    const SizedBox(height: 8),
-                    FilterComboBox(
-                      controller: _storeCtrl,
-                      options: storeOptions,
-                      hintText: '超市（可选）',
-                    ),
-                    const SizedBox(height: 12),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: CupertinoButton.filled(
-                            child: const Text('搜索'),
-                            onPressed: _search,
-                          ),
+      child: SafeArea(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                children: [
+                  FilterComboBox(
+                    controller: _productCtrl,
+                    options: productOptions,
+                    hintText: '物品（必填）',
+                  ),
+                  const SizedBox(height: 8),
+                  FilterComboBox(
+                    controller: _storeCtrl,
+                    options: storeOptions,
+                    hintText: '超市（可选）',
+                  ),
+                  const SizedBox(height: 12),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: CupertinoButton.filled(
+                          child: const Text('搜索'),
+                          onPressed: _search,
                         ),
-                        const SizedBox(width: 12),
-                        CupertinoButton(
-                          child: const Text('重置'),
-                          onPressed: _reset,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              Container(height: 1,
-                  color: CupertinoColors.systemGrey.withAlpha(76)),
-              Expanded(
-                child: _searched && _searchProduct != null
-                    ? _buildResults()
-                    : const Center(
-                        child: Text('请输入物品进行查询',
-                            style: TextStyle(color: AppTheme.textSecondary)),
                       ),
+                      const SizedBox(width: 12),
+                      CupertinoButton(
+                        child: const Text('重置'),
+                        onPressed: _reset,
+                      ),
+                    ],
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+            Container(height: 1,
+                color: CupertinoColors.systemGrey.withAlpha(76)),
+            Expanded(
+              child: _searched && _searchProduct != null
+                  ? _buildResults()
+                  : const Center(
+                      child: Text('请输入物品进行查询',
+                          style: TextStyle(color: AppTheme.textSecondary)),
+                    ),
+            ),
+          ],
         ),
       ),
     );

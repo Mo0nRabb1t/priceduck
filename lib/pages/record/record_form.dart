@@ -303,3 +303,4 @@ class _UnitPickerSheet extends StatelessWidget {
     );
   }
 }
+            onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),

@@ -42,7 +42,8 @@
            ),
          ),
        ),
-       onChanged: onChanged,
+      onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+      onChanged: onChanged,
      );
    }
  

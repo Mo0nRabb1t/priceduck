@@ -3,7 +3,7 @@ import 'record_form.dart';
 import 'record_list.dart';
 import '../../theme/app_theme.dart';
 
-/// 记录页 — O1: 整体可滚动，O6: 点击空白收起键盘
+/// 记录页 — O1: 整体可滚动，O6 丙: onTapOutside 收键盘
 class RecordPage extends StatefulWidget {
   const RecordPage({super.key});
 
@@ -18,26 +18,17 @@ class _RecordPageState extends State<RecordPage> {
       navigationBar: CupertinoNavigationBar(
         middle: const Text('物价记录'),
       ),
-      child: GestureDetector(
-        behavior: HitTestBehavior.translucent,
-        onTap: () {
-          final scope = FocusScope.of(context);
-          if (!scope.hasPrimaryFocus && scope.focusedChild != null) {
-            scope.unfocus();
-          }
-        },
-        child: SafeArea(
-          child: ListView(
-            children: [
-              const RecordForm(),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Container(height: 1,
-                    color: CupertinoColors.systemGrey.withAlpha(76)),
-              ),
-              const RecordList(),
-            ],
-          ),
+      child: SafeArea(
+        child: ListView(
+          children: [
+            const RecordForm(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Container(height: 1,
+                  color: CupertinoColors.systemGrey.withAlpha(76)),
+            ),
+            const RecordList(),
+          ],
         ),
       ),
     );
