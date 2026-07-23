@@ -4,13 +4,40 @@ import 'theme/app_theme.dart';
 import 'pages/record/record_page.dart';
 import 'pages/query/query_page.dart';
 
-/// 应用壳层 - 底栏纯文字、无图标
-class AppShell extends ConsumerWidget {
+/// 应用壳层 - 底栏 emoji（🏠记录 / 🔍查询）
+class AppShell extends ConsumerStatefulWidget {
   const AppShell({super.key});
+
+  @override
+  ConsumerState<AppShell> createState() => _AppShellState();
+}
+
+class _AppShellState extends ConsumerState<AppShell> {
+  late final CupertinoTabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = CupertinoTabController();
+    _tabController.addListener(_onTabChanged);
+  }
+
+  void _onTabChanged() {
+    // 仅在 Tab 真正切换时收键盘；键盘弹起导致的重建不会触发此处
+    FocusManager.instance.primaryFocus?.unfocus();
+  }
+
+  @override
+  void dispose() {
+    _tabController.removeListener(_onTabChanged);
+    _tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return CupertinoTabScaffold(
+      controller: _tabController,
       tabBar: CupertinoTabBar(
         activeColor: AppTheme.primaryColor,
         items: const [
@@ -25,9 +52,6 @@ class AppShell extends ConsumerWidget {
         ],
       ),
       tabBuilder: (context, index) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          FocusManager.instance.primaryFocus?.unfocus();
-        });
         switch (index) {
           case 0:
             return const RecordPage();
