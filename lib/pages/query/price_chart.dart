@@ -153,26 +153,56 @@
            ),
          ),
          // 明细列表
-         CupertinoListSection(
-           header: const Text('明细'),
-           children: items.reversed.map((item) {
-             final up = computeUnitPrice(
-                 item.price, item.quantity, item.unit);
-             return CupertinoListTile(
-               title: Text('¥${item.price} / ${item.quantity}${item.unit.symbol}'),
-               subtitle: Text(_formatTime(item.createdAt)),
-               trailing: Text(up.valueDisplay,
-                   style: const TextStyle(
-                       fontWeight: FontWeight.w600, fontSize: 13)),
-             );
-           }).toList(),
+         Container(
+           decoration: BoxDecoration(
+             color: AppTheme.cardBackground,
+             borderRadius: BorderRadius.circular(AppTheme.cardRadius),
+             boxShadow: AppTheme.cardShadow,
+           ),
+           clipBehavior: Clip.antiAlias,
+           child: Column(
+             crossAxisAlignment: CrossAxisAlignment.stretch,
+             children: [
+               Container(
+                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                 color: AppTheme.backgroundLight,
+                 child: const Text('明细',
+                     style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600,
+                         color: AppTheme.textSecondary)),
+               ),
+               ...items.reversed.map((item) {
+                 final up = computeUnitPrice(
+                     item.price, item.quantity, item.unit);
+                 return Padding(
+                   padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
+                   child: Row(children: [
+                     Expanded(
+                       child: Column(
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                         children: [
+                           Text('¥${item.price} / ${item.quantity}${item.unit.symbol}',
+                               style: const TextStyle(fontSize: 14,
+                                   color: AppTheme.textPrimary)),
+                           Text(_formatTime(item.createdAt),
+                               style: const TextStyle(fontSize: 12,
+                                   color: AppTheme.textSecondary)),
+                         ],
+                       ),
+                     ),
+                     Text(up.valueDisplay,
+                         style: const TextStyle(
+                             fontWeight: FontWeight.w600, fontSize: 13)),
+                   ]),
+                 );
+               }),
+             ],
+           ),
          ),
        ],
      );
    }
  
    String _formatTime(DateTime dt) {
-     return '${dt.year}/${dt.month}/${dt.day} ${dt.hour.toString().padLeft(2, '0')}:'
-         '${dt.minute.toString().padLeft(2, '0')}';
+  return '${dt.year}/${dt.month}/${dt.day}';
    }
  }

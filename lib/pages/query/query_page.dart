@@ -139,8 +139,7 @@ class _QueryPageState extends ConsumerState<QueryPage> {
                 ],
               ),
             ),
-            Container(height: 1,
-                color: CupertinoColors.systemGrey.withAlpha(76)),
+          const SizedBox(height: 8),
             Expanded(
               child: _searched && _searchProduct != null
                   ? _buildResults()
@@ -161,7 +160,10 @@ class _QueryPageState extends ConsumerState<QueryPage> {
       store: _searchStore,
     )));
 
-    return recordsAsync.when(
+  return recordsAsync.when(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      child: recordsAsync.when(
       data: (records) {
         if (records.isEmpty) {
           return const Center(
@@ -187,3 +189,4 @@ class _QueryPageState extends ConsumerState<QueryPage> {
     );
   }
 }
+              padding: const EdgeInsets.symmetric(horizontal: 16),

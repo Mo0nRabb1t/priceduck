@@ -63,8 +63,7 @@
    }
  
    String _formatTime(DateTime dt) {
-     return '${dt.month}/${dt.day} ${dt.hour.toString().padLeft(2, '0')}:'
-         '${dt.minute.toString().padLeft(2, '0')}';
+  return '${dt.month}/${dt.day}';
    }
    Widget _headerCell(String text, {TextAlign align = TextAlign.start}) {
      return Text(text, textAlign: align,

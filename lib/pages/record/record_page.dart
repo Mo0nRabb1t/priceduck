@@ -22,11 +22,7 @@ class _RecordPageState extends State<RecordPage> {
         child: ListView(
           children: [
             const RecordForm(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Container(height: 1,
-                  color: CupertinoColors.systemGrey.withAlpha(76)),
-            ),
+            const SizedBox(height: 12),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: const RecordList(),

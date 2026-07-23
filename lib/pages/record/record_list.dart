@@ -6,7 +6,7 @@ import '../../repositories/record_repository.dart';
 import '../../utils/unit_price.dart';
 import '../../theme/app_theme.dart';
 
-/// 记录列表 — O1: 去掉 Expanded，作为 ListView 子级而非独立滚动容器
+/// 记录列表（R1.2：独立圆角白卡，卡片间间隔10px）
 class RecordList extends ConsumerWidget {
   const RecordList({super.key});
 
@@ -17,18 +17,16 @@ class RecordList extends ConsumerWidget {
     return recordsAsync.when(
       data: (records) {
         if (records.isEmpty) {
-          return const Padding(
-            padding: EdgeInsets.all(32),
-            child: Center(
-              child: Text('暂无记录',
-                  style: TextStyle(color: AppTheme.textSecondary)),
-            ),
+          return const Center(
+            child: Text('暂无记录',
+                style: TextStyle(color: AppTheme.textSecondary)),
           );
         }
         return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(16, 24, 16, 12),
+              padding: const EdgeInsets.fromLTRB(0, 24, 0, 12),
               child: Row(children: [
                 const Text('最近记录',
                     style: TextStyle(
@@ -39,29 +37,53 @@ class RecordList extends ConsumerWidget {
                         fontSize: 13, color: AppTheme.textSecondary)),
               ]),
             ),
-            CupertinoListSection(
-              children: records.map((r) {
-                final record = RecordRepository.toPriceRecord(r);
-                final up = computeUnitPrice(
-                    record.price, record.quantity, record.unit);
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: CupertinoListTile(
-                    title: Text(record.product,
-                      style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          color: AppTheme.textPrimary)),
-                  subtitle: Text(
-                    '${record.store ?? '未填超市'}  ·  ${_formatTime(record.createdAt)}',
-                    style: const TextStyle(
-                        fontSize: 12, color: AppTheme.textSecondary),
+            ...records.map((r) {
+              final record = RecordRepository.toPriceRecord(r);
+              final up = computeUnitPrice(
+                  record.price, record.quantity, record.unit);
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: AppTheme.cardBackground,
+                    borderRadius:
+                        BorderRadius.circular(AppTheme.cardRadius),
+                    boxShadow: AppTheme.cardShadow,
                   ),
-                    trailing: Text(up.display, style: AppTheme.priceTextStyle),
+                  clipBehavior: Clip.antiAlias,
+                  child: Padding(
+                    padding: const EdgeInsets.all(14),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                            children: [
+                              Text(record.product,
+                                  style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppTheme.textPrimary)),
+                              const SizedBox(height: 4),
+                              Text(
+                                '${record.store ?? '未填超市'}  ·  ${_formatTime(record.createdAt)}',
+                                style: const TextStyle(
+                                    fontSize: 12,
+                                    color: AppTheme.textSecondary),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Text(up.display,
+                            style: AppTheme.priceTextStyle),
+                      ],
+                    ),
                   ),
-                );
-              }).toList(),
-            ),
+                ),
+              );
+            }).toList(),
           ],
         );
       },
@@ -75,9 +97,7 @@ class RecordList extends ConsumerWidget {
     final now = DateTime.now();
     final target = DateTime(dt.year, dt.month, dt.day);
     final diff = now.difference(target).inDays;
-    final hh = dt.hour.toString().padLeft(2, '0');
-    final mm = dt.minute.toString().padLeft(2, '0');
-    if (diff == 0) return '今天 $hh:$mm';
+    if (diff == 0) return '今天';
     if (diff == 1) return '昨天';
     if (diff == 2) return '前天';
     if (diff < 7) return '$diff天前';

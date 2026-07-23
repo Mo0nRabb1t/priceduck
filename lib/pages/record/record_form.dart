@@ -106,7 +106,7 @@ class _RecordFormState extends ConsumerState<RecordForm> {
           if (_storeError != null) _buildError(_storeError!),
           _buildField('商品', _productCtrl, '如：鸡蛋'),
           if (_productError != null) _buildError(_productError!),
-          _buildField('价格', _priceCtrl, '如：20', decimal: true),
+_buildField('价格（元）', _priceCtrl, '如：20', decimal: true),
           if (_priceError != null) _buildError(_priceError!),
           _buildField('数量', _qtyCtrl, '如：2', decimal: true),
           if (_qtyError != null) _buildError(_qtyError!),
