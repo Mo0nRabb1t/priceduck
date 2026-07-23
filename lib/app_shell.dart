@@ -35,7 +35,7 @@ class _AppShellState extends ConsumerState<AppShell> {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return CupertinoTabScaffold(
       controller: _tabController,
       tabBar: CupertinoTabBar(
