@@ -124,8 +124,7 @@ class _RecordFormState extends ConsumerState<RecordForm> {
             child: CupertinoButton.filled(
               child: const Text('保存'),
               onPressed: _save,
-            ),
-            onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+           ),
           ),
         ],
       ),
