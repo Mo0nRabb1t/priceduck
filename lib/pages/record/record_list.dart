@@ -47,7 +47,6 @@ class RecordList extends ConsumerWidget {
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: CupertinoListTile(
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                     title: Text(record.product,
                       style: const TextStyle(
                           fontSize: 16,

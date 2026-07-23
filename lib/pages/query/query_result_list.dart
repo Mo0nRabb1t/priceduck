@@ -26,8 +26,6 @@
    );
   }
 
-}
- 
      final items = RecordRepository.toPriceRecordList(records);
      items.sort((a, b) {
        final upA = computeUnitPrice(a.price, a.quantity, a.unit);
@@ -81,11 +79,11 @@
        child: Row(children: [
          Expanded(flex: 2,
              child: Text(item.store ?? '-',
-                 style: const TextStyle(fontSize: 14, color: AppTheme.textPrimary),
+                 style: TextStyle(fontSize: 14, color: AppTheme.textPrimary),
                  overflow: TextOverflow.ellipsis)),
          Expanded(flex: 3,
              child: Text(item.product,
-                 style: const TextStyle(fontSize: 14, color: AppTheme.textPrimary),
+                 style: TextStyle(fontSize: 14, color: AppTheme.textPrimary),
                  overflow: TextOverflow.ellipsis)),
          Expanded(flex: 2,
              child: Text(up.display,
@@ -93,7 +91,7 @@
          Expanded(flex: 2,
              child: Text(_formatTime(item.createdAt),
                  textAlign: TextAlign.right,
-                 style: const TextStyle(fontSize: 13, color: AppTheme.textSecondary))),
+                 style: TextStyle(fontSize: 13, color: AppTheme.textSecondary))),
       ]),
     );
   }
