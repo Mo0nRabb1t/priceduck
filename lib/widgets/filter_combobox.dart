@@ -25,11 +25,11 @@
      return CupertinoTextField(
        controller: controller,
        placeholder: hintText,
-       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-       decoration: BoxDecoration(
-         color: CupertinoColors.white,
-         borderRadius: BorderRadius.circular(10),
-         border: Border.all(color: AppTheme.dividerColor.withAlpha(100)),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      decoration: BoxDecoration(
+        color: CupertinoColors.white,
+        borderRadius: BorderRadius.circular(AppTheme.inputRadius),
+        border: Border.all(color: AppTheme.dividerColor, width: 1.5),
        ),
        suffix: GestureDetector(
          onTap: () => _showOptions(context),

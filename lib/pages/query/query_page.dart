@@ -73,7 +73,7 @@ class _QueryPageState extends ConsumerState<QueryPage> {
 
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
-        middle: const Text('查询比价'),
+        middle: const Text('计价鸭'),
       ),
       child: SafeArea(
         child: Column(
@@ -97,15 +97,42 @@ class _QueryPageState extends ConsumerState<QueryPage> {
                   Row(
                     children: [
                       Expanded(
-                        child: CupertinoButton.filled(
-                          child: const Text('搜索'),
-                          onPressed: _search,
+                        flex: 6,
+                        child: SizedBox(
+                          height: 48,
+                          child: CupertinoButton.filled(
+                            borderRadius: BorderRadius.circular(AppTheme.inputRadius),
+                            child: const Text('查询',
+                                style: TextStyle(fontWeight: FontWeight.w600)),
+                            onPressed: _search,
+                          ),
                         ),
                       ),
                       const SizedBox(width: 12),
-                      CupertinoButton(
-                        child: const Text('重置'),
-                        onPressed: _reset,
+                      Expanded(
+                        flex: 4,
+                        child: SizedBox(
+                          height: 48,
+                          child: CupertinoButton(
+                            color: CupertinoColors.white,
+                            borderRadius: BorderRadius.circular(AppTheme.inputRadius),
+                            padding: EdgeInsets.zero,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(AppTheme.inputRadius),
+                                border: Border.all(
+                                    color: AppTheme.dividerColor, width: 1.5),
+                              ),
+                              child: Center(
+                                child: const Text('重置',
+                                    style: TextStyle(
+                                        color: AppTheme.textPrimary,
+                                        fontWeight: FontWeight.w500)),
+                              ),
+                            ),
+                            onPressed: _reset,
+                          ),
+                        ),
                       ),
                     ],
                   ),

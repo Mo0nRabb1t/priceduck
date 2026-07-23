@@ -7,7 +7,8 @@
  import '../../widgets/unit_price_chip.dart';
  import '../../theme/app_theme.dart';
  
- /// 查询结果列表 - 按单价升序排列，显示原始价/量（Med-7 已修复）
+/// 查询结果列表 - 卡片表格样式（Q3）
+/// 圆角白卡容器 + 表头 + 价格红色醒目
  class QueryResultList extends StatelessWidget {
    final List<PriceRecordData> records;
  
@@ -22,8 +23,10 @@
            child: Text('无查询结果',
                style: TextStyle(color: AppTheme.textSecondary)),
          ),
-       );
-     }
+   );
+  }
+
+}
  
      final items = RecordRepository.toPriceRecordList(records);
      items.sort((a, b) {
@@ -32,25 +35,32 @@
        return upA.value.compareTo(upB.value);
      });
  
-     return CupertinoListSection(
-       header: const Text('查询结果（按单价升序）'),
-       children: items.map((item) {
-         final up = computeUnitPrice(item.price, item.quantity, item.unit);
-         return CupertinoListTile(
-           title: Text('${item.product} · ${item.store ?? "-"}'),
-           subtitle: Text('¥${item.price} / ${item.quantity}${item.unit.symbol}'),
-           trailing: Column(
-             mainAxisAlignment: MainAxisAlignment.center,
-             crossAxisAlignment: CrossAxisAlignment.end,
-             children: [
-              Text(up.display, style: AppTheme.priceTextStyle),
-               Text(_formatTime(item.createdAt),
-                   style: const TextStyle(
-                       fontSize: 11, color: AppTheme.textSecondary)),
-             ],
-           ),
-         );
-       }).toList(),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppTheme.cardBackground,
+          borderRadius: BorderRadius.circular(AppTheme.cardRadius),
+          boxShadow: AppTheme.cardShadow,
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              color: AppTheme.backgroundLight,
+              child: Row(children: [
+                Expanded(flex: 2, child: _headerCell('超市')),
+                Expanded(flex: 3, child: _headerCell('商品')),
+                Expanded(flex: 2, child: _headerCell('价格')),
+                Expanded(flex: 2, child: _headerCell('时间', align: TextAlign.right)),
+              ]),
+            ),
+            ...items.map((item) => _buildRow(item)).toList(),
+          ],
+        ),
+      ),
      );
    }
  
@@ -58,4 +68,34 @@
      return '${dt.month}/${dt.day} ${dt.hour.toString().padLeft(2, '0')}:'
          '${dt.minute.toString().padLeft(2, '0')}';
    }
- }
+   Widget _headerCell(String text, {TextAlign align = TextAlign.start}) {
+     return Text(text, textAlign: align,
+         style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600,
+             color: AppTheme.textSecondary));
+   }
+ 
+   Widget _buildRow(PriceRecord item) {
+     final up = computeUnitPrice(item.price, item.quantity, item.unit);
+     return Padding(
+       padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+       child: Row(children: [
+         Expanded(flex: 2,
+             child: Text(item.store ?? '-',
+                 style: const TextStyle(fontSize: 14, color: AppTheme.textPrimary),
+                 overflow: TextOverflow.ellipsis)),
+         Expanded(flex: 3,
+             child: Text(item.product,
+                 style: const TextStyle(fontSize: 14, color: AppTheme.textPrimary),
+                 overflow: TextOverflow.ellipsis)),
+         Expanded(flex: 2,
+             child: Text(up.display,
+                 style: AppTheme.priceTextStyle.copyWith(fontSize: 16))),
+         Expanded(flex: 2,
+             child: Text(_formatTime(item.createdAt),
+                 textAlign: TextAlign.right,
+                 style: const TextStyle(fontSize: 13, color: AppTheme.textSecondary))),
+      ]),
+    );
+  }
+
+}

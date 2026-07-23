@@ -44,8 +44,11 @@ class RecordList extends ConsumerWidget {
                 final record = RecordRepository.toPriceRecord(r);
                 final up = computeUnitPrice(
                     record.price, record.quantity, record.unit);
-                return CupertinoListTile(
-                  title: Text(record.product,
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: CupertinoListTile(
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    title: Text(record.product,
                       style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
@@ -55,8 +58,8 @@ class RecordList extends ConsumerWidget {
                     style: const TextStyle(
                         fontSize: 12, color: AppTheme.textSecondary),
                   ),
-                  trailing: Text(up.display,
-                      style: AppTheme.priceTextStyle),
+                    trailing: Text(up.display, style: AppTheme.priceTextStyle),
+                  ),
                 );
               }).toList(),
             ),

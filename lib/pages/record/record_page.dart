@@ -16,7 +16,7 @@ class _RecordPageState extends State<RecordPage> {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
-        middle: const Text('物价记录'),
+        middle: const Text('计价鸭'),
       ),
       child: SafeArea(
         child: ListView(
@@ -27,7 +27,10 @@ class _RecordPageState extends State<RecordPage> {
               child: Container(height: 1,
                   color: CupertinoColors.systemGrey.withAlpha(76)),
             ),
-            const RecordList(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: const RecordList(),
+            ),
           ],
         ),
       ),

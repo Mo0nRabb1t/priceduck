@@ -91,12 +91,6 @@ class _RecordFormState extends ConsumerState<RecordForm> {
 
   @override
   Widget build(BuildContext context) {
-    final priceVal = double.tryParse(_priceCtrl.text) ?? 0;
-    final qtyVal = double.tryParse(_qtyCtrl.text) ?? 0;
-    final preview = ref.watch(unitPricePreviewProvider((
-      price: priceVal, quantity: qtyVal, unit: _selectedUnit,
-    )));
-
     return Container(
       margin: const EdgeInsets.all(16),
       padding: const EdgeInsets.all(16),
@@ -117,12 +111,11 @@ class _RecordFormState extends ConsumerState<RecordForm> {
           _buildField('数量', _qtyCtrl, '如：2', decimal: true),
           if (_qtyError != null) _buildError(_qtyError!),
           _buildUnitField(),
-          if (preview != null) _buildPreview(preview),
           const SizedBox(height: 12),
           SizedBox(
             width: double.infinity,
             child: CupertinoButton.filled(
-              child: const Text('保存'),
+              child: const Text('保存', style: TextStyle(fontWeight: FontWeight.w600)),
               onPressed: _save,
            ),
           ),
@@ -195,20 +188,6 @@ class _RecordFormState extends ConsumerState<RecordForm> {
             ),
             onPressed: _showUnitPicker,
           ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildPreview(UnitPriceResult preview) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 14),
-      child: Row(
-        children: [
-          const Text('单价: ',
-              style: TextStyle(fontSize: 14, color: AppTheme.textSecondary)),
-          Text(preview.display,
-              style: AppTheme.priceTextStyle.copyWith(fontSize: 16)),
         ],
       ),
     );
