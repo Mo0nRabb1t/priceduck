@@ -125,6 +125,7 @@ class _RecordFormState extends ConsumerState<RecordForm> {
               child: const Text('保存'),
               onPressed: _save,
             ),
+            onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
           ),
         ],
       ),
@@ -158,6 +159,7 @@ class _RecordFormState extends ConsumerState<RecordForm> {
               border: Border.all(color: AppTheme.dividerColor, width: 2),
               borderRadius: BorderRadius.circular(AppTheme.inputRadius),
             ),
+            onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
           ),
         ],
       ),
@@ -303,4 +305,3 @@ class _UnitPickerSheet extends StatelessWidget {
     );
   }
 }
-            onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
