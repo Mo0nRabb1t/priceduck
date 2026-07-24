@@ -33,6 +33,7 @@ class AppTheme {
   static const TextStyle numberPlainStyle = TextStyle(
     fontFamily: 'DINAlternate',
   );
+  static const Color detailHighlightYellow = Color(0xFFFFFFA8);
 
   static CupertinoThemeData buildTheme() {
     return const CupertinoThemeData(
@@ -47,4 +48,3 @@ class AppTheme {
     );
   }
 }
-  static const Color detailHighlightYellow = Color(0xFFFFFFA8);
