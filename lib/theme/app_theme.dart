@@ -23,17 +23,21 @@ class AppTheme {
 
   // 价格红字样式
   static const TextStyle priceTextStyle = TextStyle(
-    color: errorColor, fontSize: 20, fontWeight: FontWeight.w700,
-    fontFamily: 'DINAlternate',
+    color: errorColor, fontSize: 20, fontWeight: FontWeight.w700, fontFamily: 'DINAlternate',
+    fontFamilyFallback: globalFontFamilyFallback,
   );
   static const TextStyle numberTextStyle = TextStyle(
-    color: errorColor, fontSize: 20, fontWeight: FontWeight.w700,
-    fontFamily: 'DINAlternate',
+    color: errorColor, fontSize: 20, fontWeight: FontWeight.w700, fontFamily: 'DINAlternate',
+    fontFamilyFallback: globalFontFamilyFallback,
   );
   static const TextStyle numberPlainStyle = TextStyle(
-    fontFamily: 'DINAlternate',
+    fontFamily: 'DINAlternate', fontFamilyFallback: globalFontFamilyFallback,
   );
   static const Color detailHighlightYellow = Color(0xFFFFFFA8);
+  static const Color accentBlue = Color(0xFF007AFF);
+  static const List<String> globalFontFamilyFallback = [
+    'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Segoe UI',
+  ];
 
   static CupertinoThemeData buildTheme() {
     return const CupertinoThemeData(
@@ -43,7 +47,7 @@ class AppTheme {
       barBackgroundColor: Color(0xE5F9F9F9),
       textTheme: CupertinoTextThemeData(
         primaryColor: primaryColor,
-        textStyle: TextStyle(color: textPrimary),
+        textStyle: TextStyle(color: textPrimary, fontFamilyFallback: globalFontFamilyFallback),
       ),
     );
   }

@@ -47,7 +47,7 @@
           children: [
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              color: AppTheme.detailHighlightYellow,
+              color: AppTheme.accentBlue,
               child: Row(children: [
                 Expanded(flex: 2, child: _headerCell('超市')),
                 Expanded(flex: 3, child: _headerCell('商品')),

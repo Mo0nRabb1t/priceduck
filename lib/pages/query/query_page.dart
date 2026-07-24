@@ -101,7 +101,7 @@ class _QueryPageState extends ConsumerState<QueryPage> {
                         child: SizedBox(
                           height: 48,
                           child: CupertinoButton(
-                            color: AppTheme.detailHighlightYellow,
+                            color: AppTheme.accentBlue,
                             borderRadius: BorderRadius.circular(AppTheme.inputRadius),
                             padding: EdgeInsets.zero,
                             child: const Text('查询',
