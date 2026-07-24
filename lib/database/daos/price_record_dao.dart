@@ -80,3 +80,21 @@ part 'price_record_dao.g.dart';
          .then((list) => list.where((e) => e.isNotEmpty).toSet().toList()..sort());
    }
  }
+ 
+   /// 流：去重物品列表（ComboBox 用，实时监听数据库变化）
+   Stream<List<String>> watchDistinctProducts() {
+     return (select(priceRecords)
+           ..orderBy([(t) => OrderingTerm(expression: t.product, mode: OrderingMode.asc)]))
+         .map((r) => r.product)
+         .watch()
+         .map((list) => list.where((e) => e.isNotEmpty).toSet().toList()..sort());
+   }
+ 
+   /// 流：去重超市列表（ComboBox 用，实时监听数据库变化）
+   Stream<List<String>> watchDistinctStores() {
+     return (select(priceRecords)
+           ..orderBy([(t) => OrderingTerm(expression: t.store, mode: OrderingMode.asc)]))
+         .map((r) => r.store)
+         .watch()
+         .map((list) => list.where((e) => e.isNotEmpty).toSet().toList()..sort());
+   }

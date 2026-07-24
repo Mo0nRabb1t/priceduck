@@ -7,7 +7,7 @@ class AppTheme {
   // 颜色 (贴原型)
   static const Color primaryColor = Color(0xFF3399FF);
   static const Color errorColor = Color(0xFFFF3B30);
-  static const Color backgroundLight = Color(0xFFFFFFFF);
+  static const Color backgroundLight = Color(0xFFF5F5F7);
   static const Color cardBackground = Color(0xFFFFFFFF);
   static const Color textPrimary = Color(0xFF1D1D1F);
   static const Color textSecondary = Color(0xFF86868B);

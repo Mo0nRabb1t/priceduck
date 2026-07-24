@@ -105,7 +105,7 @@ class _QueryPageState extends ConsumerState<QueryPage> {
                             borderRadius: BorderRadius.circular(AppTheme.inputRadius),
                             padding: EdgeInsets.zero,
                             child: const Text('查询',
-                                style: TextStyle(fontWeight: FontWeight.w600, color: AppTheme.textPrimary)),
+                                style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white)),
                             onPressed: _search,
                           ),
                         ),
