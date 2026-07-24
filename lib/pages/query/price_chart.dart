@@ -165,7 +165,7 @@
              children: [
                Container(
                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                 color: AppTheme.backgroundLight,
+                color: AppTheme.detailHighlightYellow,
                  child: const Text('明细',
                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600,
                          color: AppTheme.textSecondary)),

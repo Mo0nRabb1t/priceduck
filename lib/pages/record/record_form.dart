@@ -114,8 +114,11 @@ _buildField('价格（元）', _priceCtrl, '如：20', decimal: true),
           const SizedBox(height: 12),
           SizedBox(
             width: double.infinity,
-            child: CupertinoButton.filled(
-              child: const Text('保存', style: TextStyle(fontWeight: FontWeight.w600)),
+            child: CupertinoButton(
+              color: AppTheme.detailHighlightYellow,
+              borderRadius: BorderRadius.circular(AppTheme.inputRadius),
+              child: const Text('保存',
+                  style: TextStyle(fontWeight: FontWeight.w600, color: AppTheme.textPrimary)),
               onPressed: _save,
            ),
           ),

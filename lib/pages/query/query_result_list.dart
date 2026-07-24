@@ -34,7 +34,7 @@
      });
  
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 0),
       child: Container(
         decoration: BoxDecoration(
           color: AppTheme.cardBackground,

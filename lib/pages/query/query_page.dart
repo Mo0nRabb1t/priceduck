@@ -100,10 +100,12 @@ class _QueryPageState extends ConsumerState<QueryPage> {
                         flex: 6,
                         child: SizedBox(
                           height: 48,
-                          child: CupertinoButton.filled(
+                          child: CupertinoButton(
+                            color: AppTheme.detailHighlightYellow,
                             borderRadius: BorderRadius.circular(AppTheme.inputRadius),
+                            padding: EdgeInsets.zero,
                             child: const Text('查询',
-                                style: TextStyle(fontWeight: FontWeight.w600)),
+                                style: TextStyle(fontWeight: FontWeight.w600, color: AppTheme.textPrimary)),
                             onPressed: _search,
                           ),
                         ),

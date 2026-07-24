@@ -62,19 +62,21 @@ part 'price_record_dao.g.dart';
          .watch();
    }
  
-   /// 去重升序物品列表（ComboBox 用）
+   /// 去重升序物品列表（ComboBox 用）—— select + Dart 层 toSet 兜底
    Future<List<String>> distinctProducts() {
- return customSelect(
-   'SELECT DISTINCT product FROM price_records WHERE product IS NOT NULL AND product != \'\' ORDER BY product ASC',
-   readsFrom: {priceRecords},
- ).map((row) => row.read<String>('product')).get();
+     return (select(priceRecords, distinct: true)
+           ..orderBy([(t) => OrderingTerm(expression: t.product, mode: OrderingMode.asc)]))
+         .map((r) => r.product)
+         .get()
+         .then((list) => list.where((e) => e.isNotEmpty).toSet().toList()..sort());
    }
  
    /// 去重升序超市列表（ComboBox 用）
    Future<List<String>> distinctStores() {
- return customSelect(
-   'SELECT DISTINCT store FROM price_records WHERE store IS NOT NULL AND store != \'\' ORDER BY store ASC',
-   readsFrom: {priceRecords},
- ).map((row) => row.read<String>('store')).get();
+     return (select(priceRecords, distinct: true)
+           ..orderBy([(t) => OrderingTerm(expression: t.store, mode: OrderingMode.asc)]))
+         .map((r) => r.store)
+         .get()
+         .then((list) => list.where((e) => e.isNotEmpty).toSet().toList()..sort());
    }
  }
